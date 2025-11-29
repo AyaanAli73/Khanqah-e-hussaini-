@@ -25,6 +25,7 @@ function showToast(message, type = 'success') {
 window.showToast = showToast;
 
 function initListeners() {
+    // 1. Calendar Settings
     onSnapshot(doc(db, COLLECTIONS.SETTINGS, 'calendar_config'), (doc) => {
         if(doc.exists()) {
             blockedDates = doc.data().blocked || [];
@@ -33,6 +34,7 @@ function initListeners() {
         populateDates();
     }, (e) => console.log("Settings sync error", e));
 
+    // 2. Daily Counts
     onSnapshot(doc(db, COLLECTIONS.COUNTERS, 'daily_counts'), (doc) => {
         if(doc.exists()) {
             dayCounts = doc.data();
@@ -41,6 +43,55 @@ function initListeners() {
         }
         populateDates();
     });
+
+    // 3. Site Config (Maintenance & Popup)
+    onSnapshot(doc(db, COLLECTIONS.SETTINGS, 'site_config'), (docSnap) => {
+        if(docSnap.exists()) {
+            const data = docSnap.data();
+            
+            // Handle Maintenance Mode
+            const maintenanceDiv = document.getElementById('bookingMaintenance');
+            if (data.maintenanceMode) {
+                maintenanceDiv.classList.remove('hidden');
+            } else {
+                maintenanceDiv.classList.add('hidden');
+            }
+
+            // Handle Popup - Show Every Time (No Session Storage Check)
+            const popupModal = document.getElementById('globalPopupModal');
+            const popupText = document.getElementById('globalPopupText');
+            const popupImgContainer = document.getElementById('popupImageContainer');
+            const popupImg = document.getElementById('popupImage');
+
+            // Only show if Admin enabled it AND (there is text OR an image)
+            if (data.showPopup && (data.popupMessage || data.popupImageUrl)) {
+                
+                // Set Text
+                popupText.textContent = data.popupMessage || '';
+                
+                // Set Image
+                if (data.popupImageUrl) {
+                    popupImg.src = data.popupImageUrl;
+                    popupImgContainer.classList.remove('hidden');
+                } else {
+                    popupImgContainer.classList.add('hidden');
+                }
+
+                // Show Modal
+                popupModal.classList.remove('hidden');
+                setTimeout(() => popupModal.classList.remove('opacity-0'), 100);
+            } else {
+                // If disabled by admin, ensure it's hidden
+                popupModal.classList.add('hidden');
+            }
+        }
+    });
+}
+
+window.closeGlobalPopup = function() {
+    const popupModal = document.getElementById('globalPopupModal');
+    popupModal.classList.add('opacity-0');
+    setTimeout(() => popupModal.classList.add('hidden'), 500);
 }
 
 function populateDates() {
@@ -98,7 +149,6 @@ signInAnonymously(auth).then((userCredential) => {
 
 document.getElementById('tokenForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    
     if (!currentUser) currentUser = { uid: "guest_" + Math.random().toString(36).substr(2, 9) };
 
     submitBtn.classList.add('btn-loading'); 
@@ -234,7 +284,6 @@ const counterObserver = new IntersectionObserver((entries, observer) => {
             const target = +counter.getAttribute('data-target');
             const duration = 2000; 
             const increment = target / (duration / 16); 
-            
             let current = 0;
             const updateCounter = () => {
                 current += increment;
@@ -291,4 +340,3 @@ document.querySelectorAll('.menu-link').forEach(link => {
         document.querySelectorAll('.menu-link').forEach(l => l.classList.add('opacity-0', 'translate-y-10'));
     });
 });
-
