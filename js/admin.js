@@ -8,18 +8,16 @@ let allBookings = [];
 let blockedDates = [];
 let dayLimits = {};
 let currentTab = 'active';
-let bookingsUnsubscribe = null; // Store listener to stop it later
+let bookingsUnsubscribe = null;
 let settingsUnsubscribe = null;
+let siteConfigUnsubscribe = null;
 
 const COUNTER_DOC_ID = 'main';
 
 // --- AUTHENTICATION & SECURITY ---
 
-// Force logout on page load to ensure security
 window.addEventListener('load', async () => {
-    // Optional: keeping the session active is usually better UX, 
-    // but if you want strict security on reload, keep signOut(auth);
-    // await signOut(auth); 
+    // Optional: await signOut(auth); 
 });
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -34,27 +32,20 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
-// CRITICAL SECURITY CHECK
 onAuthStateChanged(auth, (user) => {
     if (user && user.isAnonymous === false) {
-        // SUCCESS: Valid Email/Password User
         currentUser = user;
         document.getElementById('loginOverlay').classList.add('hidden');
-        
-        // ONLY fetch data here
         initRealtimeListener();
         initSettingsListener();
+        initSiteConfigListener(); // NEW
         showToast("Welcome Admin");
     } else {
-        // FAIL: No user OR Anonymous user trying to access admin
         currentUser = null;
         document.getElementById('loginOverlay').classList.remove('hidden');
-        
-        // DETACH LISTENERS (Stop paying for reads, stop receiving data)
         if (bookingsUnsubscribe) bookingsUnsubscribe();
         if (settingsUnsubscribe) settingsUnsubscribe();
-        
-        // CLEAR DATA FROM MEMORY & UI
+        if (siteConfigUnsubscribe) siteConfigUnsubscribe();
         allBookings = [];
         document.getElementById('bookingsTable').innerHTML = '';
         document.getElementById('statTotal').textContent = '0';
@@ -71,11 +62,8 @@ window.logout = async () => {
 // --- DATA FETCHING ---
 
 function initRealtimeListener() {
-    if (!currentUser) return; // Double check
-
+    if (!currentUser) return;
     const q = query(collection(db, COLLECTIONS.BOOKINGS), orderBy("tokenNumber", "desc"));
-    
-    // Assign to variable so we can stop it on logout
     bookingsUnsubscribe = onSnapshot(q, (snapshot) => {
         allBookings = [];
         snapshot.forEach((doc) => allBookings.push({ id: doc.id, ...doc.data() }));
@@ -86,7 +74,6 @@ function initRealtimeListener() {
         console.error("Data access denied:", error);
         showToast("Access Denied: You do not have permission.", "error");
     });
-
     onSnapshot(doc(db, COLLECTIONS.COUNTERS, COUNTER_DOC_ID), (doc) => {
         document.getElementById('statNext').textContent = "#" + ((doc.data()?.current || 0) + 1);
     });
@@ -94,12 +81,25 @@ function initRealtimeListener() {
 
 function initSettingsListener() {
     if (!currentUser) return;
-
     settingsUnsubscribe = onSnapshot(doc(db, COLLECTIONS.SETTINGS, 'calendar_config'), (doc) => {
         if(doc.exists()) {
             const data = doc.data();
             blockedDates = data.blocked || [];
             dayLimits = data.limits || {};
+        }
+    });
+}
+
+// NEW: Listener for Site Config
+function initSiteConfigListener() {
+    if (!currentUser) return;
+    siteConfigUnsubscribe = onSnapshot(doc(db, COLLECTIONS.SETTINGS, 'site_config'), (docSnap) => {
+        if(docSnap.exists()) {
+            const data = docSnap.data();
+            document.getElementById('maintenanceModeToggle').checked = data.maintenanceMode || false;
+            document.getElementById('showPopupToggle').checked = data.showPopup || false;
+            document.getElementById('popupMessageInput').value = data.popupMessage || '';
+            document.getElementById('popupImageInput').value = data.popupImageUrl || '';
         }
     });
 }
@@ -121,7 +121,6 @@ function populateDayFilter() {
     const filterSelect = document.getElementById('dayFilter');
     const currentVal = filterSelect.value;
     const uniqueDays = [...new Set(allBookings.map(b => b.day))].sort();
-    
     let html = '<option value="all">All Days</option>';
     uniqueDays.forEach(day => {
         if(day) html += `<option value="${day}">${day}</option>`;
@@ -133,11 +132,9 @@ function populateDayFilter() {
 window.renderTable = function() {
     const tbody = document.getElementById('bookingsTable');
     tbody.innerHTML = '';
-    
     const todayISO = new Date().toISOString().split('T')[0];
     const term = document.getElementById('searchInput').value.toLowerCase();
     const dayFilter = document.getElementById('dayFilter').value;
-
     const filtered = allBookings.filter(b => {
         const isMatch = (b.name || '').toLowerCase().includes(term) || String(b.tokenNumber).includes(term);
         if (!isMatch) return false;
@@ -189,74 +186,54 @@ function updateStats() {
 
 // --- MODALS & ACTIONS ---
 
-// 1. OPEN ADD MODAL (Updated with Date Logic)
 window.openAddModal = function() {
     document.getElementById('addForm').reset();
     const daySelect = document.getElementById('addDay');
     daySelect.innerHTML = '';
-    
-    // Generate next 7 days logic (Same as main website)
     const today = new Date();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    
     let hasOptions = false;
 
     for (let i = 0; i < 7; i++) {
         const d = new Date(today);
         d.setDate(today.getDate() + i);
-        
         const dayName = days[d.getDay()];
         const isoDate = d.toISOString().split('T')[0];
-        
-        // Filter Logic: Skip Fridays and Blocked Dates
-        // Note: For admins, you might want to see blocked dates, but users requested "like website"
-        // So we will strictly follow the website availability rules for the dropdown.
         if (dayName === 'Friday') continue;
         if (blockedDates.includes(isoDate)) continue;
-
         const option = document.createElement('option');
-        // We store both dateCode and Label in value for easy parsing
         option.value = `${isoDate}|${dayName}`; 
         option.textContent = `${dayName} (${isoDate})`;
         daySelect.appendChild(option);
         hasOptions = true;
     }
-
-    // Always add a "Manual/Emergency" option for today in case everything else is blocked
     const todayISO = new Date().toISOString().split('T')[0];
     const emergencyOpt = document.createElement('option');
     emergencyOpt.value = `${todayISO}|Manual Entry`;
     emergencyOpt.textContent = "Manual / Emergency (Today)";
-    // If no regular days available, select emergency by default
     if(!hasOptions) emergencyOpt.selected = true; 
     daySelect.appendChild(emergencyOpt);
-
     document.getElementById('addModal').classList.remove('hidden');
     document.getElementById('addModal').classList.add('modal-active');
 }
 
-// 2. OPEN EDIT MODAL
 window.openEditModal = function(id) {
     const booking = allBookings.find(b => b.id === id);
     if (!booking) return;
-
     document.getElementById('editDocId').value = id;
     document.getElementById('editName').value = booking.name;
     document.getElementById('editMobile').value = booking.mobile;
     document.getElementById('editCity').value = booking.city;
-    document.getElementById('editDay').value = booking.day; // Readonly field
-
+    document.getElementById('editDay').value = booking.day;
     document.getElementById('editModal').classList.remove('hidden');
     document.getElementById('editModal').classList.add('modal-active');
 }
 
-// 3. SCHEDULE MODAL
 window.openScheduleModal = function() {
     const list = document.getElementById('daysList');
     list.innerHTML = '';
     const today = new Date();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    
     for(let i=0; i<7; i++) {
         const d = new Date(today);
         d.setDate(today.getDate() + i);
@@ -265,12 +242,10 @@ window.openScheduleModal = function() {
         const label = `${dayName} (${iso})`;
         const isBlocked = blockedDates.includes(iso);
         const currentLimit = dayLimits[iso] || 0;
-
         const div = document.createElement('div');
         div.className = "grid grid-cols-12 gap-2 items-center p-3 bg-gray-50 rounded-lg border";
         div.innerHTML = `
             <div class="col-span-5 font-bold text-sm ${isBlocked ? 'text-gray-400 line-through' : 'text-gray-700'}">${label}</div>
-            
             <div class="col-span-3 text-center">
                 <label class="inline-flex items-center cursor-pointer">
                     <input type="checkbox" class="sr-only date-toggle" value="${iso}" ${isBlocked ? 'checked' : ''}>
@@ -280,16 +255,12 @@ window.openScheduleModal = function() {
                 </label>
                 <div class="text-[10px] font-bold mt-1 ${isBlocked ? 'text-red-500' : 'text-emerald-600'}">${isBlocked ? 'BLOCKED' : 'OPEN'}</div>
             </div>
-            
             <div class="col-span-4">
-                <input type="number" min="0" placeholder="No Limit" 
-                    class="limit-input w-full p-2 text-xs border rounded-md focus:ring-1 focus:ring-royal outline-none" 
-                    data-date="${iso}" value="${currentLimit === 0 ? '' : currentLimit}">
+                <input type="number" min="0" placeholder="No Limit" class="limit-input w-full p-2 text-xs border rounded-md focus:ring-1 focus:ring-royal outline-none" data-date="${iso}" value="${currentLimit === 0 ? '' : currentLimit}">
             </div>
         `;
         list.appendChild(div);
     }
-    
     document.querySelectorAll('.date-toggle').forEach(el => {
         el.addEventListener('change', (e) => {
             const bg = e.target.nextElementSibling;
@@ -307,48 +278,66 @@ window.openScheduleModal = function() {
             }
         });
     });
-
     document.getElementById('scheduleModal').classList.remove('hidden');
     document.getElementById('scheduleModal').classList.add('modal-active');
 }
 
+// NEW: Open Site Settings Modal
+window.openSettingsModal = function() {
+    document.getElementById('siteSettingsModal').classList.remove('hidden');
+    document.getElementById('siteSettingsModal').classList.add('modal-active');
+}
+
+// NEW: Save Site Settings (Includes Image URL)
+document.getElementById('siteSettingsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const maintenanceMode = document.getElementById('maintenanceModeToggle').checked;
+    const showPopup = document.getElementById('showPopupToggle').checked;
+    const popupMessage = document.getElementById('popupMessageInput').value.trim();
+    const popupImageUrl = document.getElementById('popupImageInput').value.trim();
+
+    try {
+        await setDoc(doc(db, COLLECTIONS.SETTINGS, 'site_config'), {
+            maintenanceMode: maintenanceMode,
+            showPopup: showPopup,
+            popupMessage: popupMessage,
+            popupImageUrl: popupImageUrl
+        }, { merge: true });
+        showToast("Site Configuration Updated!");
+        closeModal('siteSettingsModal');
+    } catch(e) {
+        showToast("Error saving: " + e.message, "error");
+    }
+});
+
 // --- FORM SUBMISSIONS ---
 
-// HANDLE MANUAL ADD (Updated to parse Date)
 document.getElementById('addForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('addSubmitBtn');
     const originalText = btn.textContent;
     btn.textContent = "Generating...";
     btn.disabled = true;
-
     const name = document.getElementById('addName').value.trim();
     const mobile = document.getElementById('addMobile').value.trim();
     const city = document.getElementById('addCity').value.trim();
     const rawDay = document.getElementById('addDay').value; 
-
-    // Parse the value "YYYY-MM-DD|DayName"
     let dateCode, dayLabel;
     if (rawDay.includes('|')) {
         [dateCode, dayLabel] = rawDay.split('|');
     } else {
-        // Fallback
         dateCode = new Date().toISOString().split('T')[0];
         dayLabel = rawDay;
     }
-
     try {
         await runTransaction(db, async (transaction) => {
             const counterRef = doc(db, COLLECTIONS.COUNTERS, COUNTER_DOC_ID);
             const counterSnap = await transaction.get(counterRef);
-            
             let newToken = 1;
             if (counterSnap.exists()) {
                 newToken = (counterSnap.data().current || 0) + 1;
             }
-
             const newBookingRef = doc(collection(db, COLLECTIONS.BOOKINGS));
-            
             transaction.set(counterRef, { current: newToken }, { merge: true });
             transaction.set(newBookingRef, {
                 tokenNumber: newToken,
@@ -356,15 +345,13 @@ document.getElementById('addForm').addEventListener('submit', async (e) => {
                 mobile: mobile,
                 city: city,
                 day: dayLabel,
-                dateCode: dateCode, // Uses selected date
+                dateCode: dateCode,
                 timestamp: new Date()
             });
         });
-
         showToast(`Token #${name} Generated!`);
         closeModal('addModal');
     } catch (error) {
-        console.error("Add Error: ", error);
         showToast("Error generating token: " + error.message, "error");
     } finally {
         btn.textContent = originalText;
@@ -372,11 +359,9 @@ document.getElementById('addForm').addEventListener('submit', async (e) => {
     }
 });
 
-// HANDLE EDIT SUBMISSION
 document.getElementById('editForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = document.getElementById('editDocId').value;
-    
     try {
         await updateDoc(doc(db, COLLECTIONS.BOOKINGS, id), {
             name: document.getElementById('editName').value.trim(),
@@ -390,46 +375,36 @@ document.getElementById('editForm').addEventListener('submit', async (e) => {
     }
 });
 
-// --- SAVE SCHEDULE ---
 window.saveSchedule = async function() {
     const blocked = [];
     const limits = {};
-    
     document.querySelectorAll('.date-toggle').forEach(cb => {
         if(cb.checked) blocked.push(cb.value);
     });
-    
     document.querySelectorAll('.limit-input').forEach(inp => {
         const val = parseInt(inp.value);
         if (!isNaN(val) && val > 0) {
             limits[inp.dataset.date] = val;
         }
     });
-    
     try {
         await setDoc(doc(db, COLLECTIONS.SETTINGS, 'calendar_config'), { 
             blocked: blocked,
             limits: limits 
         }, { merge: true });
-        
         showToast("Schedule & Limits Updated!");
         closeModal('scheduleModal');
     } catch(e) {
         showToast("Error saving: " + e.message, "error");
-        console.error(e);
     }
 }
-
-// --- PRINT & DELETE ---
 
 window.printAllTokens = () => {
     const tbody = document.getElementById('printTableBody');
     tbody.innerHTML = '';
-    
     const todayISO = new Date().toISOString().split('T')[0];
     const term = document.getElementById('searchInput').value.toLowerCase();
     const dayFilter = document.getElementById('dayFilter').value;
-    
     const dataToPrint = allBookings.filter(b => {
             const isMatch = (b.name || '').toLowerCase().includes(term);
             if (!isMatch) return false;
@@ -437,7 +412,6 @@ window.printAllTokens = () => {
             if (currentTab === 'active') return !b.dateCode || b.dateCode >= todayISO;
             return b.dateCode && b.dateCode < todayISO;
     });
-
     dataToPrint.forEach(b => {
         tbody.innerHTML += `
             <tr class="border-b">
@@ -477,7 +451,6 @@ document.getElementById('confirmDeleteAllBtn').addEventListener('click', async (
         snaps.forEach(doc => batch.delete(doc.ref));
         batch.set(doc(db, COLLECTIONS.COUNTERS, 'main'), { current: 0 });
         batch.delete(doc(db, COLLECTIONS.COUNTERS, 'daily_counts'));
-        
         await batch.commit();
         showToast("All data wiped & counter reset.");
         closeModal('deleteAllModal');
