@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    
+    <title>Khanqah-e-Hussaini | Jalore Sharif</title>
+    
+    <!-- External Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Project CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Tailwind CSS (Using CDN for stability, or change src to "js/tailwindcss.js" if using local file) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/config/tailwind-config.js"></script>
+</head>
+
+<body class="text-gray-800 antialiased font-sans" id="main-body" style="opacity: 0;">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/5 animate-slide-down">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-4 group z-50 relative">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gold blur-lg opacity-20 rounded-full group-hover:opacity-40 transition duration-500"></div>
+                    <img src="assets/images/logo.webp" onerror="this.src='https://placehold.co/100x100/002B20/D4AF37?text=KH'" alt="Khanqah Logo" class="w-14 h-14 rounded-full object-cover border-2 border-gold shadow-lg transform group-hover:rotate-12 transition duration-500 relative z-10">
+                </div>
+                <div class="text-white">
+                    <h1 class="font-serif text-2xl font-bold leading-none tracking-wide group-hover:text-gold transition duration-300">Khanqah-e-Hussaini</h1>
+                    <p class="text-xs text-gold/80 uppercase tracking-[0.3em] mt-1">Jalore Sharif</p>
+                </div>
+            </a>
+            <div class="hidden xl:flex items-center space-x-8 text-sm font-medium tracking-widest text-white/90">
+                <a href="#home" class="hover:text-gold transition py-2 relative group overflow-hidden"><span class="relative z-10">Home</span><span class="absolute bottom-0 left-0 w-full h-0.5 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span></a>
+                <a href="#prayer-times" class="hover:text-gold transition py-2 relative group overflow-hidden"><span class="relative z-10">Prayers</span><span class="absolute bottom-0 left-0 w-full h-0.5 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span></a>
+                <a href="#about" class="hover:text-gold transition py-2 relative group overflow-hidden"><span class="relative z-10">About</span><span class="absolute bottom-0 left-0 w-full h-0.5 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span></a>
+                <a href="#services" class="hover:text-gold transition py-2 relative group overflow-hidden"><span class="relative z-10">Services</span><span class="absolute bottom-0 left-0 w-full h-0.5 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span></a>
+                <a href="#programs" class="hover:text-gold transition py-2 relative group overflow-hidden"><span class="relative z-10">Programs</span><span class="absolute bottom-0 left-0 w-full h-0.5 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span></a>
+                <a href="#gallery" class="hover:text-gold transition py-2 relative group overflow-hidden"><span class="relative z-10">Gallery</span><span class="absolute bottom-0 left-0 w-full h-0.5 bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span></a>
+                <a href="#booking" class="relative px-6 py-2.5 border border-gold/50 text-gold overflow-hidden group rounded-full uppercase text-xs font-bold tracking-wider shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                    <span class="absolute inset-0 w-full h-full bg-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></span>
+                    <span class="relative z-10 group-hover:text-royal transition-colors">Book Token</span>
+                </a>
+            </div>
+            <button id="menu-btn" class="block xl:hidden z-50 focus:outline-none bg-transparent border-none cursor-pointer p-2 hover:scale-110 transition">
+                <svg class="hamburger" viewBox="0 0 100 100" width="45" height="45">
+                    <line class="line1" x1="20" x2="80" y1="40" y2="40" stroke="#D4AF37" stroke-width="6" stroke-linecap="round"></line>
+                    <line class="line2" x1="20" x2="80" y1="50" y2="50" stroke="#D4AF37" stroke-width="6" stroke-linecap="round"></line>
+                    <line class="line3" x1="20" x2="80" y1="60" y2="60" stroke="#D4AF37" stroke-width="6" stroke-linecap="round"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Global Elements -->
+    <div id="toast-container"></div>
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    
+    <div id="preloader">
+        <div class="text-center">
+            <div class="loader-ring mx-auto mb-4"></div>
+            <h2 class="text-gold font-serif text-3xl animate-pulse tracking-widest">Khanqah-e-Hussaini</h2>
+            <p class="text-white/50 text-xs uppercase tracking-[0.5em] mt-2">Jalore Sharif</p>
+        </div>
+    </div>
+
+    <!-- Sliding Marquee Text at Bottom (UPDATED ADDRESS & PHONE) -->
+    <div class="marquee-strip">
+        <div class="marquee-content">
+            <span class="mx-8"><i class="fas fa-map-marker-alt mr-2"></i> Address: Khanqah-e-Hussaini, Suncity Colony, Near KGN Colony, Behind Oil Mill, Keshwana Road, Jalore (Rajasthan)</span>
+            <span class="mx-8 text-white/30">|</span>
+            <span class="mx-8"><i class="fas fa-phone-alt mr-2"></i> Contact: +91 01169320151</span>
+            <span class="mx-8 text-white/30">|</span>
+            <span class="mx-8"><i class="fas fa-envelope mr-2"></i> Email: info@khanqahjalore.com</span>
+            <span class="mx-8 text-white/30">|</span>
+            <span class="mx-8"><i class="fas fa-star-and-crescent mr-2"></i> Dua: Every 2nd Sunday</span>
+            <!-- Duplicate for loop -->
+            <span class="mx-8 text-white/30">|</span>
+            <span class="mx-8"><i class="fas fa-map-marker-alt mr-2"></i> Address: Khanqah-e-Hussaini, Suncity Colony, Near KGN Colony, Behind Oil Mill, Keshwana Road, Jalore (Rajasthan)</span>
+            <span class="mx-8 text-white/30">|</span>
+            <span class="mx-8"><i class="fas fa-phone-alt mr-2"></i> Contact: +91 01169320151</span>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-overlay fixed inset-0 bg-royal z-40 flex flex-col items-center justify-center text-center">
+        <div class="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+        <div class="flex flex-col space-y-6 font-serif text-3xl md:text-4xl text-white">
+            <a href="#home" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">Home</a>
+            <a href="#prayer-times" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">Prayer Times</a>
+            <a href="#about" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">About Hazrat</a>
+            <a href="#services" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">Services</a>
+            <a href="#programs" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">Programs</a>
+            <a href="#gallery" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">Gallery</a>
+            <a href="#media" class="menu-link hover:text-gold transition transform hover:scale-110 opacity-0 translate-y-10">Videos</a>
+            <a href="#booking" class="menu-link text-gold hover:text-white transition transform hover:scale-110 opacity-0 translate-y-10">Book Token</a>
+        </div>
+    </div>
+
+    <div class="site-wrapper bg-cream">
+        <div class="fixed inset-0 bg-pattern opacity-[0.03] pointer-events-none z-0"></div>
+
+        <!-- Hero -->
+        <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 bg-gradient-to-b from-royal/80 via-royal/60 to-royal/90 z-10"></div>
+                <div class="w-full h-full bg-cover bg-center animate-zoom" style="background-image: url('assets/images/khanka.webp');"></div>
+                <div class="gold-dust" style="left: 10%; animation-delay: 0s;"></div>
+                <div class="gold-dust" style="left: 20%; animation-delay: 2s;"></div>
+                <div class="gold-dust" style="left: 30%; animation-delay: 4s;"></div>
+                <div class="gold-dust" style="left: 50%; animation-delay: 1s;"></div>
+                <div class="gold-dust" style="left: 70%; animation-delay: 3s;"></div>
+                <div class="gold-dust" style="left: 90%; animation-delay: 5s;"></div>
+            </div>
+
+            <!-- RESPONSIVE HERO UPDATE: Text Left, Button Left on Mobile, Right on Desktop -->
+            <div class="container mx-auto px-6 pt-40 pb-32 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+                    
+                    <!-- Left Side: Text -->
+                    <div class="lg:w-2/3 text-left">
+                        <div class="flex items-center gap-4 mb-6" data-aos="fade-right" data-aos-delay="200">
+                            <div class="h-px w-16 bg-gold shadow-[0_0_10px_#D4AF37]"></div>
+                            <span class="text-gold-light uppercase tracking-[0.2em] text-sm font-bold animate-pulse">Spiritual Center & Welfare</span>
+                        </div>
+                        <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] mb-8 drop-shadow-2xl" data-aos="fade-up" data-aos-duration="1200">
+                            Healing Souls, <br><span class="text-shine">Serving Humanity.</span>
+                        </h1>
+                        <p class="font-sans text-lg text-gray-300 max-w-xl mb-10 leading-relaxed backdrop-blur-sm p-4 rounded-lg border-l-2 border-gold/30" data-aos="fade-up" data-aos-delay="400">
+                            Under the spiritual guidance of <strong>Dr. Hazrat Riyaz Khan Hussaini</strong>. A sanctuary in Jalore Sharif dedicated to social welfare, family harmony, and spiritual cures for all faiths.
+                        </p>
+                    </div>
+
+                    <!-- Right Side: Buttons (Modified: items-start for Mobile/Left, lg:items-end for Desktop/Right) -->
+                    <div class="lg:w-1/3 flex flex-col items-start lg:items-end gap-6 w-full" data-aos="fade-left" data-aos-delay="600">
+                        <a href="#booking" class="magnetic-btn btn-shine-effect relative overflow-hidden group bg-gold text-royal font-bold py-4 px-10 rounded-tl-3xl rounded-br-3xl shadow-[0_0_30px_rgba(212,175,55,0.4)] transition hover:shadow-[0_0_50px_rgba(212,175,55,0.6)] flex items-center gap-3 w-auto justify-center">
+                            <i class="fas fa-ticket-alt group-hover:rotate-12 transition"></i> <span>Book Token</span>
+                        </a>
+                        <a href="#about" class="magnetic-btn flex items-center gap-3 text-white group hover:text-gold transition border border-white/20 px-8 py-4 rounded-tl-3xl rounded-br-3xl hover:bg-white/5 hover:border-gold backdrop-blur-sm w-auto justify-center">
+                            <span class="uppercase tracking-wider text-sm font-bold">Learn More</span>
+                            <i class="fas fa-arrow-right transform group-hover:translate-x-1 transition"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="absolute bottom-10 right-10 hidden md:block animate-bounce z-20 cursor-pointer" onclick="document.querySelector('#prayer-times').scrollIntoView({behavior: 'smooth'})">
+                <p class="vertical-rl text-gold text-xs tracking-widest uppercase" style="writing-mode: vertical-rl;">Scroll Down</p>
+            </div>
+        </section>
+
+        <!-- Prayer Times -->
+        <section id="prayer-times" class="py-16 bg-royal border-b border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-pattern opacity-5"></div>
+            <div class="absolute top-10 left-10 w-32 h-32 bg-gold/10 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-10 right-10 w-40 h-40 bg-emerald/20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="relative p-[1px] rounded-3xl bg-gradient-to-r from-gold/0 via-gold/50 to-gold/0 hover:via-gold/80 transition-all duration-500" data-aos="zoom-in-up">
+                    <div class="glass-card bg-royal/80 p-10 rounded-3xl flex flex-col lg:flex-row items-center justify-between gap-8 border border-white/10 shadow-2xl transition-all duration-500 hover:border-gold/30">
+                        <div class="text-center lg:text-left">
+                            <div class="flex items-center gap-2 justify-center lg:justify-start text-gold mb-2"><i class="far fa-clock animate-spin-slow"></i><span class="uppercase tracking-widest text-xs font-bold">Jalore Sharif Time</span></div>
+                            <div id="live-clock" class="text-4xl md:text-6xl font-serif text-white font-bold tracking-wide tabular-nums">00:00:00</div>
+                            <p class="text-gray-400 text-sm mt-1 tracking-wider date-display">Loading Date...</p>
+                        </div>
+                        <div class="grid grid-cols-3 md:grid-cols-6 gap-4 w-full lg:w-auto">
+                            <div class="prayer-box text-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-gold/50 transition hover:-translate-y-2 hover:shadow-[0_5px_15px_rgba(212,175,55,0.2)] duration-300 cursor-default"><p class="text-[10px] text-gray-400 uppercase mb-1">Fajr</p><p class="text-white font-bold">05:15 AM</p></div>
+                            <div class="prayer-box text-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-gold/50 transition hover:-translate-y-2 hover:shadow-[0_5px_15px_rgba(212,175,55,0.2)] duration-300 cursor-default"><p class="text-[10px] text-gray-400 uppercase mb-1">Zohar</p><p class="text-white font-bold">01:30 PM</p></div>
+                            <div class="prayer-box text-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-gold/50 transition hover:-translate-y-2 hover:shadow-[0_5px_15px_rgba(212,175,55,0.2)] duration-300 cursor-default"><p class="text-[10px] text-gray-400 uppercase mb-1">Asr</p><p class="text-white font-bold">04:45 PM</p></div>
+                            <div class="prayer-box text-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-gold/50 transition hover:-translate-y-2 hover:shadow-[0_5px_15px_rgba(212,175,55,0.2)] duration-300 cursor-default"><p class="text-[10px] text-gray-400 uppercase mb-1">Maghrib</p><p class="text-white font-bold">06:10 PM</p></div>
+                            <div class="prayer-box text-center p-4 bg-white/5 rounded-xl border border-white/5 hover:border-gold/50 transition hover:-translate-y-2 hover:shadow-[0_5px_15px_rgba(212,175,55,0.2)] duration-300 cursor-default"><p class="text-[10px] text-gray-400 uppercase mb-1">Isha</p><p class="text-white font-bold">08:00 PM</p></div>
+                            <div class="text-center p-4 bg-gold text-royal rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-110 transition duration-300 cursor-pointer"><p class="text-[10px] text-royal/80 uppercase mb-1 font-bold">Jumu'ah</p><p class="font-bold">02:00 PM</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Hazrat (RESPONSIVE: Image Left, Text Right) -->
+        <section id="about" class="py-24 relative bg-cream">
+            <div class="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+            <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-royal to-transparent opacity-5"></div>
+            <div class="container mx-auto px-6 relative z-10">
+                <!-- flex-col for mobile, lg:flex-row for desktop preserves image left, text right order -->
+                <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+                    
+                    <!-- Image Side (Left on Desktop) -->
+                    <div class="lg:w-1/2 relative group perspective-1000" data-aos="fade-right">
+                        <div class="absolute -top-6 -left-6 w-full h-full border-2 border-gold rounded-tl-[80px] rounded-br-[80px] z-0 transition-all duration-700 group-hover:-top-10 group-hover:-left-10 opacity-50 group-hover:opacity-80 group-hover:border-emerald"></div>
+                        <div class="relative z-10 overflow-hidden rounded-tl-[80px] rounded-br-[80px] shadow-2xl aspect-[3/4] transform transition duration-700 hover:rotate-y-3">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-20 opacity-80"></div>
+                            <img src="assets/images/hazrat.jpg" onerror="this.src='https://placehold.co/600x800/002B20/D4AF37?text=Hazrat+Sahab'" alt="Dr. Hazrat Riyaz Khan Hussaini" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                            <div class="absolute bottom-0 left-0 w-full p-10 z-30 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                                <h3 class="font-serif text-3xl text-gold text-shine">Dr. Hazrat Riyaz Khan</h3>
+                                <p class="text-white/80 text-sm uppercase tracking-wider mt-2">Hussaini • Jalore Sharif</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Side (Right on Desktop) -->
+                    <div class="lg:w-1/2" data-aos="fade-left">
+                        <span class="text-gold font-bold tracking-widest uppercase text-sm mb-2 block animate-pulse">The Visionary</span>
+                        <h2 class="font-serif text-4xl md:text-5xl text-royal font-bold mb-8 leading-tight">
+                            Bridging Spirituality & <br> <span class="italic text-emerald decoration-gold underline decoration-2 underline-offset-4">Modern Solutions</span>
+                        </h2>
+                        <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                            Dr. Hazrat Riyaz Khan Hussaini is not just a spiritual guide but a beacon of hope. His mission transcends religious boundaries, offering a helping hand to anyone in distress through social welfare and spiritual healing.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6 mb-10">
+                            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-gold hover:-translate-y-2 transition duration-300 hover:shadow-gold/20">
+                                <h4 class="font-bold text-royal text-4xl mb-1 flex items-center gap-2">
+                                    <span class="counter" data-target="30">0</span>+
+                                </h4>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Years of Service</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-emerald hover:-translate-y-2 transition duration-300 hover:shadow-emerald/20">
+                                <h4 class="font-bold text-royal text-4xl mb-1 flex items-center gap-2">
+                                    <span class="counter" data-target="1000">0</span>+
+                                </h4>
+                                <p class="text-xs text-gray-500 uppercase tracking-wider">Families Helped</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 group"><div class="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center text-gold mt-1 group-hover:bg-gold group-hover:text-white transition duration-300"><i class="fas fa-hand-holding-heart"></i></div><div><h4 class="font-bold text-royal text-lg">Social Reformer</h4><p class="text-gray-500 text-sm">Uplifting families through counseling and moral support.</p></div></div>
+                            <div class="flex items-start gap-4 group"><div class="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center text-gold mt-1 group-hover:bg-gold group-hover:text-white transition duration-300"><i class="fas fa-kaaba"></i></div><div><h4 class="font-bold text-royal text-lg">Spiritual Healer</h4><p class="text-gray-500 text-sm">Expert in Rohani Ilaj for paranormal difficulties.</p></div></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Golden Chain (Imams) -->
+        <section id="imams" class="py-24 bg-royal relative overflow-hidden border-t border-b border-gold/20">
+            <div class="absolute inset-0 bg-pattern opacity-10"></div>
+            <div class="text-center mb-16 relative z-10">
+                <span class="text-gold font-bold tracking-widest uppercase text-sm">The Golden Chain</span>
+                <h2 class="font-serif text-4xl text-white font-bold mt-2 text-shine">The 12 Holy Imams (RA)</h2>
+            </div>
+            <div class="relative w-full overflow-hidden">
+                <div class="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-royal to-transparent z-10"></div>
+                <div class="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-royal to-transparent z-10"></div>
+                <div class="flex w-[calc(180px*24+3rem*24)] animate-scroll gap-8">
+                     <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam2.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Hasan+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Hasan (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam3.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Hussain+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Hussain (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam4.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Zain-ul-Abideen'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-sm font-bold">Imam Zain-ul-Abideen (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam5.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Baqir+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Baqir (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam6.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Jafar+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Jafar Sadiq (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam7.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Musa+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Musa Kazim (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam8.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Reza+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Ali Reza (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam9.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Taqi+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Taqi (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam10.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Naqi+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Naqi (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam11.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Askari+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Askari (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam12.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Mahdi+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Mahdi (RA)</p></div></div></div>
+
+                    <!-- Duplicate Set for Seamless Scroll -->
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam1.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Ali+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Ali (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam2.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Hasan+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Hasan (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam3.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Hussain+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Hussain (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam4.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Zain-ul-Abideen'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-sm font-bold">Imam Zain-ul-Abideen (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam5.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Baqir+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Baqir (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam6.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Jafar+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Jafar Sadiq (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam7.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Musa+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Musa Kazim (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam8.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Reza+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Ali Reza (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam9.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Taqi+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Taqi (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam10.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Naqi+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Naqi (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam11.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Askari+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Askari (RA)</p></div></div></div>
+                    <div class="imam-card bg-cream/10 border border-gold/30 group"><div class="aspect-[3/4] relative overflow-hidden"><img src="assets/images/imam12.png" onerror="this.src='https://placehold.co/400x600/002B20/D4AF37?text=Imam+Mahdi+(RA)'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><div class="absolute bottom-4 left-0 w-full text-center"><p class="text-gold font-serif text-lg font-bold">Imam Mahdi (RA)</p></div></div></div>
+                  </div>
+            </div>
+        </section>
+
+        <!-- Programs -->
+        <section id="programs" class="py-24 bg-royal relative overflow-hidden">
+            <div class="absolute inset-0 bg-pattern opacity-10"></div>
+            <div class="absolute top-20 left-20 w-72 h-72 bg-emerald/20 rounded-full blur-[80px] animate-pulse"></div>
+            <div class="absolute bottom-20 right-20 w-72 h-72 bg-gold/20 rounded-full blur-[80px] animate-pulse" style="animation-delay: 1.5s;"></div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <span class="text-gold font-bold tracking-widest uppercase text-sm">Spiritual Gatherings</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-white font-bold mt-2 text-shine">Our Sacred Programs</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mt-4 rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="group relative" data-aos="fade-up" data-aos-delay="100">
+                        <div class="absolute inset-0 bg-gradient-to-b from-gold/20 to-transparent rounded-[2rem] blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+                        <div class="glass-card bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden relative hover:-translate-y-3 transition-all duration-500 h-full flex flex-col">
+                            <div class="h-64 reveal-image">
+                                <img src="assets/images/qawwali.webp" onerror="this.src='https://placehold.co/400x300/002B20/D4AF37?text=Qawwali'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-1000">
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <h3 class="text-2xl font-serif font-bold text-gold mb-3">Mehfil-e-Sama</h3>
+                                <p class="text-gray-300 leading-relaxed text-sm mb-6 flex-1">Experience the divine ecstasy through soulful Sufi music. A spiritual journey that connects the heart directly to the divine essence.</p>
+                                <a href="#media" class="inline-flex items-center gap-2 text-white/80 hover:text-gold transition uppercase text-xs font-bold tracking-widest">Watch Highlights <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative" data-aos="fade-up" data-aos-delay="200">
+                        <div class="absolute inset-0 bg-gradient-to-b from-red-500/20 to-transparent rounded-[2rem] blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+                        <div class="glass-card bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden relative hover:-translate-y-3 transition-all duration-500 h-full flex flex-col">
+                            <div class="h-64 reveal-image">
+                                <img src="assets/images/moharram.png" onerror="this.src='https://placehold.co/400x300/002B20/D4AF37?text=Moharram'" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-1000 grayscale group-hover:grayscale-0">
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <h3 class="text-2xl font-serif font-bold text-white group-hover:text-red-400 transition-colors mb-3">Moharram Commemoration</h3>
+                                <p class="text-gray-300 leading-relaxed text-sm mb-6 flex-1">Remembering the great sacrifice of Imam Hussain (AS) at Karbala. Special gatherings for Majlis, Noha, and paying tribute to the martyrs.</p>
+                                <button class="text-left inline-flex items-center gap-2 text-white/80 hover:text-red-400 transition uppercase text-xs font-bold tracking-widest cursor-default">Every Year (1st-10th)</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative" data-aos="fade-up" data-aos-delay="300">
+                        <div class="absolute inset-0 bg-gradient-to-b from-emerald/30 to-transparent rounded-[2rem] blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+                        <div class="glass-card bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden relative hover:-translate-y-3 transition-all duration-500 h-full flex flex-col">
+                            <div class="h-64 reveal-image">
+                                <img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-1000">
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <h3 class="text-2xl font-serif font-bold text-white group-hover:text-emerald transition-colors mb-3">Eid Milad-un-Nabi</h3>
+                                <p class="text-gray-300 leading-relaxed text-sm mb-6 flex-1">A grand celebration of light rejoicing the birth of the Holy Prophet (PBUH). The Khanqah illuminates with joy, Naat gatherings, and community feasts.</p>
+                                <button class="text-left inline-flex items-center gap-2 text-white/80 hover:text-emerald transition uppercase text-xs font-bold tracking-widest cursor-default">12th Rabi-ul-Awwal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="py-24 bg-cream relative">
+            <div class="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <h2 class="font-serif text-4xl text-royal font-bold mb-4">Our Noble Services</h2>
+                    <div class="w-24 h-1 bg-gold mx-auto rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="tilt-card bg-sand p-10 rounded-3xl shadow-xl border-t-4 border-gold group transform transition duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-16 h-16 bg-royal/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-royal transition duration-500 shadow-inner">
+                            <i class="fas fa-hands-helping text-3xl text-emerald group-hover:text-royal transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-4 text-royal group-hover:text-gold transition-colors">Social Welfare</h3>
+                        <p class="text-gray-600 leading-relaxed">Providing food, clothing, and essential support to the needy. We believe service to humanity is the highest form of worship.</p>
+                    </div>
+                    <div class="tilt-card bg-sand p-10 rounded-3xl shadow-xl border-t-4 border-emerald group transform transition duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                        <div class="w-16 h-16 bg-royal/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald group-hover:text-white transition duration-500 shadow-inner">
+                            <i class="fas fa-moon text-3xl text-emerald group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-4 text-royal group-hover:text-emerald transition-colors">Spiritual Healing</h3>
+                        <p class="text-gray-600 leading-relaxed">Authentic Rohani Ilaj for paranormal and life issues. Curing black magic and blocks through Quranic verses.</p>
+                    </div>
+                    <div class="tilt-card bg-sand p-10 rounded-3xl shadow-xl border-t-4 border-gold group transform transition duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                        <div class="w-16 h-16 bg-royal/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-royal transition duration-500 shadow-inner">
+                            <i class="fas fa-users text-3xl text-emerald group-hover:text-royal transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-serif font-bold mb-4 text-royal group-hover:text-gold transition-colors">Family Counseling</h3>
+                        <p class="text-gray-600 leading-relaxed">Resolving domestic disputes and restoring peace at home through patience, wisdom, and spiritual guidance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media -->
+        <section id="media" class="py-24 bg-cream relative overflow-hidden">
+            <div class="absolute inset-0 bg-pattern opacity-5"></div>
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <span class="text-gold font-bold tracking-widest uppercase text-sm">Sufi Wisdom</span>
+                <h2 class="font-serif text-4xl font-bold mb-12 mt-2 text-royal">Sermons & Qawwali</h2>
+                <a href="https://www.youtube.com/results?search_query=khanqah+e+hussaini+qawwali" target="_blank" class="block">
+                    <div class="max-w-5xl mx-auto relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group cursor-pointer transform transition duration-700 hover:shadow-[0_0_50px_rgba(212,175,55,0.3)]" data-aos="zoom-in">
+                        <img src="assets/images/qawwali.webp" onerror="this.src='https://placehold.co/1200x500/002B20/D4AF37?text=Qawwali+Video'" class="w-full h-[500px] object-cover opacity-70 group-hover:opacity-50 transition duration-700 transform group-hover:scale-105">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-24 h-24 bg-gold rounded-full flex items-center justify-center pl-2 group-hover:scale-110 transition duration-300 shadow-[0_0_40px_rgba(212,175,55,0.6)] animate-pulse-slow relative z-20">
+                                <i class="fas fa-play text-royal text-4xl ml-1"></i>
+                            </div>
+                            <div class="absolute w-24 h-24 border-4 border-gold rounded-full animate-ping opacity-75"></div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 w-full p-10 bg-gradient-to-t from-black via-black/50 to-transparent text-left transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            <h3 class="text-3xl font-bold text-gold font-serif">Latest Mehfil-e-Sama</h3>
+                            <p class="text-gray-300 mt-2">Experience the divine atmosphere recorded live at Khanqah-e-Hussaini. <span class="text-gold underline text-sm ml-2">Click to Watch on YouTube</span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" class="py-24 bg-sand relative">
+            <div class="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-12">
+                    <span class="text-gold font-bold tracking-widest uppercase text-sm">Gallery</span>
+                    <h2 class="font-serif text-4xl text-royal font-bold mt-2">Glimpses of Peace</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-[600px]">
+                    <div class="col-span-2 row-span-2 overflow-hidden rounded-3xl relative group shadow-lg cursor-pointer" data-aos="fade-in">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 z-10 transition duration-500"></div>
+                        <img src="assets/images/gallery1.webp" onerror="this.src='https://placehold.co/800x800/002B20/D4AF37?text=Gathering'" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                        <div class="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition duration-500 z-20 translate-y-4 group-hover:translate-y-0">
+                            <p class="font-bold text-lg">Community Gathering</p>
+                        </div>
+                    </div>
+                    <div class="overflow-hidden rounded-3xl relative group shadow-lg cursor-pointer" data-aos="fade-in" data-aos-delay="100">
+                        <img src="assets/images/gallery2.webp" onerror="this.src='https://placehold.co/400x400/002B20/D4AF37?text=Moment'" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                    </div>
+                    <div class="overflow-hidden rounded-3xl relative group shadow-lg cursor-pointer" data-aos="fade-in" data-aos-delay="200">
+                        <img src="assets/images/khanka.webp" onerror="this.src='https://placehold.co/400x400/002B20/D4AF37?text=Architecture'" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                    </div>
+                    <div class="col-span-2 overflow-hidden rounded-3xl relative group shadow-lg cursor-pointer" data-aos="fade-in" data-aos-delay="300">
+                        <img src="assets/images/gallery4.jpg" onerror="this.src='https://placehold.co/800x400/002B20/D4AF37?text=Prayer'" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 bg-cream relative">
+            <div class="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+            <div class="container mx-auto px-6 max-w-3xl relative z-10">
+                <div class="text-center mb-12">
+                    <span class="text-gold font-bold tracking-widest uppercase text-sm">Help Center</span>
+                    <h2 class="font-serif text-4xl text-royal font-bold mt-2">Frequently Asked Questions</h2>
+                </div>
+                <div class="space-y-4" data-aos="fade-up">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden faq-item group hover:border-gold/30 transition duration-300">
+                        <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-royal text-lg group-hover:text-gold transition">Is the Khanqah open for ladies?</span>
+                            <div class="w-8 h-8 rounded-full bg-sand flex items-center justify-center group-hover:bg-gold/10 transition"><i class="fas fa-chevron-down text-gray-400 group-hover:text-gold transition-transform duration-300"></i></div>
+                        </button>
+                        <div class="faq-content bg-sand px-8 text-gray-600 text-base border-t border-gray-100"><p class="py-6 leading-relaxed">Yes, there is a separate designated area for ladies. We request all visitors to maintain a modest dress code and silence within the premises.</p></div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden faq-item group hover:border-gold/30 transition duration-300">
+                        <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-royal text-lg group-hover:text-gold transition">Is Token Booking Free?</span>
+                            <div class="w-8 h-8 rounded-full bg-sand flex items-center justify-center group-hover:bg-gold/10 transition"><i class="fas fa-chevron-down text-gray-400 group-hover:text-gold transition-transform duration-300"></i></div>
+                        </button>
+                        <div class="faq-content bg-sand px-8 text-gray-600 text-base border-t border-gray-100"><p class="py-6 leading-relaxed">Yes, absolutely. The token booking is <strong>free of charge</strong>. It helps us manage the queue so you don't have to wait long hours.</p></div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden faq-item group hover:border-gold/30 transition duration-300">
+                        <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                            <span class="font-bold text-royal text-lg group-hover:text-gold transition">Can non-Muslims visit?</span>
+                            <div class="w-8 h-8 rounded-full bg-sand flex items-center justify-center group-hover:bg-gold/10 transition"><i class="fas fa-chevron-down text-gray-400 group-hover:text-gold transition-transform duration-300"></i></div>
+                        </button>
+                        <div class="faq-content bg-sand px-8 text-gray-600 text-base border-t border-gray-100"><p class="py-6 leading-relaxed">Khanqah-e-Hussaini is a place of humanity first. We welcome brothers and sisters from all religions (Hindu, Sikh, Christian, Jain) with equal love and respect.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKING SECTION (UPDATED PHONE) -->
+        <section id="booking" class="py-24 bg-royal border-t border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-pattern opacity-5 pointer-events-none"></div>
+            <div class="absolute top-0 left-0 w-64 h-64 bg-gold/20 rounded-full blur-[100px] animate-pulse"></div>
+            <div class="absolute bottom-0 right-0 w-64 h-64 bg-emerald/20 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+                    <div class="lg:w-1/3" data-aos="fade-right">
+                        <span class="text-gold font-bold tracking-widest uppercase text-sm mb-2 block">Appointment</span>
+                        <h2 class="font-serif text-4xl md:text-5xl text-white font-bold mb-6">Get Your Token</h2>
+                        <p class="text-gray-400 mb-8 leading-relaxed">Book a token for the upcoming week. The system shows available slots for the next 7 days only.</p>
+                        <ul class="space-y-4 text-gray-300 mb-8">
+                            <li class="flex items-center gap-3 hover:text-gold transition"><i class="fas fa-calendar-check text-gold"></i> Rolling 7-Day Window</li>
+                            <li class="flex items-center gap-3 hover:text-red-400 transition"><i class="fas fa-ban text-red-400"></i> <strong>Fridays Closed</strong></li>
+                            <li class="flex items-center gap-3 hover:text-gold transition"><i class="fas fa-clock text-gold"></i> 10:00 AM - 05:00 PM</li>
+                        </ul>
+                        <!-- Added Support Contact Here -->
+                        <div class="bg-white/5 border border-white/10 p-4 rounded-xl backdrop-blur-sm">
+                            <p class="text-gold text-xs uppercase font-bold mb-1">Need Help?</p>
+                            <div class="flex items-center gap-2 text-white">
+                                <i class="fas fa-phone-alt"></i>
+                                <span class="font-bold tracking-wide">+91 01169320151</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-2/3 w-full" data-aos="fade-left">
+                        <div class="glass-card p-10 rounded-3xl border border-gold/30 shadow-2xl relative overflow-hidden">
+                            <div class="absolute -top-20 -right-20 w-40 h-40 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+                            
+                            <form id="tokenForm" class="space-y-6 relative z-10">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-gold/80 text-xs uppercase font-bold ml-2">Full Name</label>
+                                        <input type="text" id="name" required class="w-full p-4 rounded-xl booking-input focus:ring-2 focus:ring-gold/50" placeholder="Enter Name">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-gold/80 text-xs uppercase font-bold ml-2">City</label>
+                                        <input type="text" id="city" required class="w-full p-4 rounded-xl booking-input focus:ring-2 focus:ring-gold/50" placeholder="Your City">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-gold/80 text-xs uppercase font-bold ml-2">Mobile</label>
+                                        <input type="tel" id="mobile" required pattern="[0-9]{10}" class="w-full p-4 rounded-xl booking-input focus:ring-2 focus:ring-gold/50" placeholder="10-digit Number">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-gold/80 text-xs uppercase font-bold ml-2">Select Date</label>
+                                        <div class="relative">
+                                            <select id="day" required class="w-full p-4 rounded-xl booking-input cursor-pointer text-gray-300 appearance-none focus:ring-2 focus:ring-gold/50">
+                                                <option value="" class="bg-royal text-gray-500">Loading available dates...</option>
+                                            </select>
+                                            <i class="fas fa-chevron-down absolute right-4 top-1/2 transform -translate-y-1/2 text-gold pointer-events-none"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="submitBtn" type="submit" disabled class="w-full bg-gradient-to-r from-gold to-yellow-600 text-royal font-bold py-4 rounded-xl shadow-lg hover:shadow-gold/30 transition transform hover:-translate-y-1 text-lg font-serif relative overflow-hidden group">
+                                    <span class="relative z-10 group-hover:tracking-widest transition-all duration-300" id="btnText">Connecting to Database...</span>
+                                    <div class="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer (UPDATED LOCATION) -->
+        <footer class="bg-royal text-white pt-24 pb-16 border-t border-white/10 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent animate-pulse"></div>
+            <div class="absolute top-10 left-10 opacity-5 text-9xl text-gold rotate-12"><i class="fas fa-star-and-crescent"></i></div>
+            <div class="absolute bottom-10 right-10 opacity-5 text-9xl text-emerald -rotate-12"><i class="fas fa-mosque"></i></div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="max-w-2xl mx-auto mb-12">
+                    <img src="assets/images/logo.webp" onerror="this.src='https://placehold.co/100x100/002B20/D4AF37?text=KH'" alt="Logo" class="w-20 h-20 rounded-full object-cover border-2 border-gold mx-auto mb-6 shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:scale-110 transition duration-500">
+                    <h2 class="font-serif text-3xl font-bold text-white mb-2">Khanqah-e-Hussaini</h2>
+                    <p class="text-gold text-sm uppercase tracking-widest mb-6">Suncity Colony, Jalore (Rajasthan)</p>
+                    <div class="flex justify-center gap-8 mt-8">
+                        <i class="fas fa-star-and-crescent text-3xl text-green-400 hover:scale-125 transition hover:text-white cursor-pointer"></i>
+                        <i class="fas fa-om text-3xl text-orange-400 hover:scale-125 transition hover:text-white cursor-pointer"></i>
+                        <i class="fas fa-khanda text-3xl text-yellow-400 hover:scale-125 transition hover:text-white cursor-pointer"></i>
+                        <i class="fas fa-cross text-3xl text-blue-400 hover:scale-125 transition hover:text-white cursor-pointer"></i>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-xs">&copy; 2025 Khanqah-e-Hussaini. All Rights Reserved.</p>
+            </div>
+        </footer>
+    
+    </div>
+
+    <!-- Token Modal -->
+    <div id="tokenModal" class="fixed inset-0 z-[100] bg-black/90 hidden flex items-center justify-center backdrop-blur-md px-4 transition-opacity duration-300">
+        <div class="bg-cream w-full max-w-md rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-all duration-300" id="modalContent">
+            <div class="bg-royal p-8 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-pattern opacity-10"></div>
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-gold/20 rounded-full blur-xl"></div>
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-white/50 hover:text-white hover:rotate-90 transition duration-300"><i class="fas fa-times text-xl"></i></button>
+                <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-4 border-royal animate-bounce">
+                    <i class="fas fa-check text-royal text-3xl"></i>
+                </div>
+                <h3 class="text-white font-serif text-3xl font-bold">Confirmed!</h3>
+                <p class="text-gold-light text-xs uppercase tracking-widest mt-1">Please Save This Token</p>
+            </div>
+            <div class="p-8 relative bg-cream ticket-cut">
+                <div class="border-2 border-dashed border-gold/30 p-6 rounded-xl bg-white text-center shadow-inner relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none"><i class="fas fa-mosque text-6xl text-royal"></i></div>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest mb-2">Token ID</p>
+                    <h2 id="modalTokenNum" class="text-6xl font-bold text-royal mb-6 font-serif text-shine">#--</h2>
+                    <div class="text-left space-y-3 text-sm border-t border-dashed border-gray-200 pt-4 relative z-10">
+                        <div class="flex justify-between"><span class="text-gray-400 uppercase text-xs font-bold">Name</span> <span id="modalName" class="font-bold text-royal">User</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400 uppercase text-xs font-bold">City</span> <span id="modalCity" class="font-bold text-royal">City</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400 uppercase text-xs font-bold">Date</span> <span id="modalDay" class="font-bold text-royal">Monday</span></div>
+                        <div class="flex justify-between"><span class="text-gray-400 uppercase text-xs font-bold">Mobile</span> <span id="modalMobile" class="font-bold text-royal">...</span></div>
+                    </div>
+                </div>
+                <button onclick="window.print()" class="mt-6 w-full bg-royal text-white py-4 rounded-xl font-bold hover:bg-emerald transition uppercase tracking-widest text-sm shadow-lg hover:shadow-xl transform active:scale-95">Save / Print Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Main Application Logic -->
+    <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
+
